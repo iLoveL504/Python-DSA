@@ -12,11 +12,14 @@ class TreeNode:
         self.children.append(child)
         child.parent = self
 
-    def print_tree(self, style=None):
+    def print_tree(self, style=None, maxLevel=1000):
         #print(self.data)
-        self.print_format(styled=style,level=self.get_level())
+        current_level = self.get_level()
+        self.print_format(styled=style,level=current_level)
         for child in self.children:
-            child.print_tree(style)
+            # print('current_level: ', current_level + 1)
+            if current_level <= maxLevel - 1:
+                child.print_tree(style, maxLevel)
 
     def get_level(self):
         level = 0
@@ -31,8 +34,11 @@ class TreeNode:
             print((level * 4 ) * ' ' + f'{'|__' if level!= 0 else ''}' + f'{self.data['position']}')
         elif styled == 'name':
             print((level * 4 ) * ' ' + f'{'|__' if level!= 0 else ''}' + f'{self.data['name']}')
-        else:
+        elif styled == 'complete':
             print((level * 4 ) * ' ' + f'{'|__' if level!= 0 else ''}' + f'{self.data['name']} ({self.data['position']})')
+        else:
+            print((level * 4 ) * ' ' + f'{'|__' if level!= 0 else ''}' + f'{self.data['name']}')
+
 
 def build_company_tree():
     root = TreeNode(position='CEO',name='Nilupul')
@@ -61,13 +67,44 @@ def build_company_tree():
 
     return root
 
+def build_geography_tree():
+    pass
+
 if __name__ == "__main__":
     tree = build_company_tree()
     print('hello')
     print('=' * 5 + 'Original Style' + '=' * 5)
-    tree.print_tree(style=None)
+    tree.print_tree(style='complete')
     print('=' * 5 + 'Postion' + '=' * 5)
     tree.print_tree(style='position')
     print('=' * 5 + 'Name' + '=' * 5)
-    tree.print_tree(style='name')
+    tree.print_tree(style='name', maxLevel=1)
     
+    # Exercise 2
+    geography_tree = build_geography_tree()
+    # Added a feature where it can only print up to a certain level
+
+# =====Original Style=====
+# Nilupul (CEO)
+#     |__Chinmay (CTO)
+#         |__Vishwa (Infrastucture Head)
+#             |__Abhijit (App Manager)
+#             |__Dhaval (Cloud Manager)
+#         |__Aamir (Application Head)
+#     |__Gels (HR Head)
+#         |__Peter (Recruitment Manager)
+#         |__Waqas (Policy Manager)
+# =====Postion=====
+# CEO
+#     |__CTO
+#         |__Infrastucture Head
+#             |__App Manager
+#             |__Cloud Manager
+#         |__Application Head
+#     |__HR Head
+#         |__Recruitment Manager
+#         |__Policy Manager
+# =====Name=====
+# Nilupul               # Here with a parameter of maxLevel = 1
+#     |__Chinmay
+#     |__Gels
