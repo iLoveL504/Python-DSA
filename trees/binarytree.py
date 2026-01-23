@@ -27,10 +27,44 @@ class TreeNode:
 
         self.in_order(node.right)
 
-    # Post order traversal
-    def post_order(self, node):
-        pass
+    # Post order traversal 4, 5, 2, 10, 3, 1
+    def post_order_recursive(self, node):
+        if not node:
+            return
+        self.post_order_recursive(node.left)
+        self.post_order_recursive(node.right)
+        print(node)
 
+    # FInall figured this out
+    # thought process for this
+    # stack for post order left right root
+    # stack = [4,]
+    # stk1 = [1, 3, 10, 2, 5, 8, 7,]
+    # stk1 = [1, 3, 10, 2, 5, 8, 7, 4]
+
+
+    # correct order: 4, 7, 8, 5, 2, 10, 3, 1
+    # stack should look like [1, 3, 10, 2, 5, 8, 7, 4]
+    def post_order_iterative(self, node):
+        stk = [node]
+        stk1 = []
+
+        while stk:
+            node = stk.pop()
+            stk1.append(node)
+            if node.left: stk.append(node.left)
+            if node.right: stk.append(node.right)
+        while stk1:
+            print(stk1.pop())
+
+
+
+
+
+    #     while stk1:
+
+
+    
     # Iterative Pre Order Traversal 
     def pre_order_iterative(self, node):
         stk = [node]
@@ -77,31 +111,36 @@ B = TreeNode(2);
 C= TreeNode(3);    
 D = TreeNode(4);    
 E = TreeNode(5);    
-F = TreeNode(10);   
+F = TreeNode(10)
+G = TreeNode(7)
+H = TreeNode(8)   
 
 A.left = B
 A.right = C
 B.left = D
+
 B.right = E
+E.left = G
+E.right = H
 C.left = F 
 
-A.pre_order_iterative(A)
-A.level_order(A)
-print(A.search(A, 5))
+A.post_order_iterative(A)
+# A.level_order(A)
+# print(A.search(A, 5))
 
 
 # Binary Search Trees 
 
-A2 = TreeNode(5);    
-B2 = TreeNode(1);    
-C2 = TreeNode(8);    
-D2 = TreeNode(-1);    
-E2 = TreeNode(3);    
-F2 = TreeNode(7);   
-G2 = TreeNode(9);   
+# A2 = TreeNode(5);    
+# B2 = TreeNode(1);    
+# C2 = TreeNode(8);    
+# D2 = TreeNode(-1);    
+# E2 = TreeNode(3);    
+# F2 = TreeNode(7);   
+# G2 = TreeNode(9);   
 
-A2.left, A2.right = B2, C2
-B2.left, B2.right = D2, E2
-C2.left, C2.right = F2, G2
+# A2.left, A2.right = B2, C2
+# B2.left, B2.right = D2, E2
+# C2.left, C2.right = F2, G2
 
-A2.in_order(A2)
+# A2.in_order(A2)
